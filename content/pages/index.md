@@ -1,1 +1,3 @@
-# My First Page
+::test-component
+Hello MDC
+::

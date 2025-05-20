@@ -1,24 +1,46 @@
-import { defineNuxtModule } from '@nuxt/kit'
-import { mkdirSync, copyFileSync } from 'fs'
-import { join } from 'path'
+import { addServerHandler, createResolver, defineNuxtModule, extendPages  } from '@nuxt/kit'
+import { moduleOptionsSchema, type ModuleOptions } from './types'
+import resolveOptions from './utils/resolve-options'
 
-export default defineNuxtModule({
+export default defineNuxtModule<ModuleOptions>({
   meta: {
-    name: 'decap-cms',
-    configKey: 'decapCms'
+    name: 'decap-cms-module',
+    configKey: 'decapCms',
+    dependencies: ['@nuxt/content']
   },
-  setup(_options, nuxt) {
-    nuxt.hook('build:before', () => {
-      const indexSource = join(__dirname, 'files', 'index.html')
-      const configSource = join(__dirname, 'files', 'config.yml')
-      const destinationDir = join(nuxt.options.rootDir, 'public/decap')
-      const indexDestination = join(destinationDir, 'index.html')
-      const sourceDestination = join(destinationDir, 'config.yml')
+  defaults: moduleOptionsSchema.safeParse({}).data,
+  async setup(_options, nuxt) {
+    const { resolve } = createResolver(import.meta.url)
 
-      mkdirSync(destinationDir, { recursive: true })
-      copyFileSync(indexSource, indexDestination)
-      copyFileSync(configSource, sourceDestination)
-      console.log('OK')
+    if (!nuxt.options._installedModules?.some(m => m.meta?.name === '@nuxt/content')) {
+      throw new Error('Le module @nuxt/content est requis pour decap-cms-module')
+    }
+
+    const options = await resolveOptions(_options, nuxt)
+
+    nuxt.options.runtimeConfig.decapCms = options
+    
+    addServerHandler({
+      route: `${options.route}`,
+      handler: resolve('./runtime/index.get.ts')
+    })
+    
+    addServerHandler({
+      route: `${options.route}/config.yml`,
+      handler: resolve('./runtime/config.get.ts')
+    })
+    
+    addServerHandler({
+      route: `${options.route}/components.js`,
+      handler: resolve('./runtime/components.get.ts')
+    })
+
+    extendPages((pages) => {
+      pages.unshift({
+        name: 'decap-preview',
+        path: `${options.route}/preview`,
+        file: resolve('runtime/DecapPreview.vue'),
+      })
     })
   }
 })

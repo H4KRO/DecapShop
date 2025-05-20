@@ -1,3 +1,11 @@
+export default defineEventHandler((event) => {
+  setResponseHeaders(event, {
+    'Content-Type': 'text/html'
+  })
+
+  const { decapCms: options } = useRuntimeConfig()
+
+  return `
 <!DOCTYPE html>
 <html>
   <head>
@@ -10,6 +18,7 @@
   <body>
     <!-- Include the script that builds the page and powers Decap CMS -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <script src="${options.route}/components.js"></script>
     <script>
       var PagePreview = createClass({
         componentDidMount() {
@@ -35,7 +44,7 @@
           return h('div', { style: { height: '100vh' } },
             h('iframe', {
               id: 'post-preview-iframe',
-              src: '/preview',
+              src: '/decap/preview',
               style: {
                 width: '100%',
                 height: '100%',
@@ -48,6 +57,8 @@
     
       CMS.registerPreviewTemplate("page", PagePreview);
     </script>
-    
+    <script src="${options.route}/components.js" defer></script>
   </body>
 </html>
+  `
+})

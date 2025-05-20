@@ -11,6 +11,22 @@ export default defineNuxtConfig({
     '@nuxt/scripts',
     //'@nuxt/test-utils',
     '@nuxt/ui',
-    './modules/decap-cms'
+    './modules/decap-cms',
+    '@nuxtjs/mdc',
   ],
+  components: {
+    global: true,
+    path: './components/content'
+  },
+  vite: {
+    optimizeDeps: {
+      include: ['debug']
+    }
+  },
+  decapCms: {
+    backend: {
+      name: 'github',
+      repo: 'H4KRO/DecapShop',
+    }
+  }
 })

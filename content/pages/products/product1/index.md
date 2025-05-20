@@ -1,1 +1,6 @@
-# IAM THE FIRST PRODUCT
+::test-component
+Bonjour
+::test-component
+bonjour 2
+::
+::

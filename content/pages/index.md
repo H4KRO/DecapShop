@@ -1,6 +1,6 @@
-::badge{label="Je suis super rigolo !"}
+::badge{label="Trop marrant !"}
 
 
 #label
-Je suis super rigolo !
+Trop marrant !
 ::

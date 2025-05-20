@@ -8,6 +8,7 @@ const { data } = await useAsyncData('page', () => queryCollection('pages').path(
 </script>
 
 <template>
+  <UBadge label="TEST"/>
   <div v-if="data">
     <ContentRenderer :value="data" />
   </div>

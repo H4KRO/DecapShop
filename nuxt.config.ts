@@ -14,6 +14,7 @@ export default defineNuxtConfig({
     './modules/decap-cms',
     '@nuxtjs/mdc',
   ],
+  css: ['~/assets/css/main.css'],
   components: {
     global: true,
     path: './components/content'

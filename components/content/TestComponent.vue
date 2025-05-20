@@ -1,5 +1,9 @@
 <template>
-  <h1>{{ label }} - {{ count }}</h1>
+  <div>
+    <h1>{{ label }}</h1>
+    <h2>{{ count }}</h2>
+    <slot />
+  </div>
 </template>
 
 <script lang="ts" setup>

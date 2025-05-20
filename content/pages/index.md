@@ -1,5 +1,7 @@
-::badge{label="Trop marrant !"}
 
+
+::badge{label="Trop marrant !"}
+TEST
 
 #label
 Trop marrant !

@@ -1,15 +1,14 @@
-::alert{title="title" description="test" color="neutral" cssColor="" fontWeight="600"}
 
 
-#title
-title
+::item-show-case{label="TEST" img="https://media.lechemindelanature.com/2018/11/fly-agaric-1957611_1920.jpg" price="10,20"}
 
-#description
-test
 
-#color
-neutral
+#label
+TEST
 
-#fontWeight
-600
+#img
+https://media.lechemindelanature.com/2018/11/fly-agaric-1957611_1920.jpg
+
+#price
+10,20
 ::
